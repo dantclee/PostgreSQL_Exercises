@@ -1,0 +1,11 @@
+SELECT mem.firstname || ' ' || mem.surname AS member, 
+fac.name AS facility, (
+  SELECT bkg.slots*fac.guestcost AS cost FROM cd.bookings AS bkg
+  	INNER JOIN cd.facilities AS fac
+  		ON bkg.facid = fac.facid
+  	WHERE bkg.memid = 0)
+FROM cd.members AS mem
+	INNER JOIN cd.bookings AS bkg
+		ON mem.memid = bkg.memid
+	INNER JOIN cd.facilities AS fac
+		ON bkg.facid = fac.facid
